@@ -13,11 +13,7 @@
     --muted:#a9a9a9;
     --light:#f0d9b5;
     --dark:#b58863;
-    --accent:#7aa2ff;
-    --danger:#ff7a7a;
-    --ok:#7fe09a;
     --sel:#ffd966;
-    --hint:#8bd3ff;
   }
 
   *{
@@ -146,7 +142,6 @@
 
   .piece.black{
     color:#111;
-    text-shadow:0 1px 1px rgba(255,255,255,.15);
   }
 
   .row{
@@ -156,10 +151,7 @@
     margin:10px 0;
   }
 
-  button,
-  select,
-  input,
-  textarea{
+  button,select,input,textarea{
     background:#262626;
     color:var(--text);
     border:1px solid #444;
@@ -175,14 +167,6 @@
 
   button:hover{
     background:#303030;
-  }
-
-  button.primary{
-    border-color:#557bd9;
-  }
-
-  button.danger{
-    border-color:#8a4242;
   }
 
   .status{
@@ -224,7 +208,7 @@
     border:1px solid #333;
     border-radius:10px;
     padding:10px;
-    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-family:Consolas,monospace;
     font-size:13px;
     line-height:1.55;
   }
@@ -254,15 +238,6 @@
     color:var(--muted);
   }
 
-  .safe{
-    margin-top:12px;
-    padding:10px;
-    border-left:4px solid #6a8ee8;
-    background:#131722;
-    font-size:12px;
-    color:#cbd7ff;
-  }
-
   @media(max-width:820px){
     .wrap{
       grid-template-columns:1fr;
@@ -275,244 +250,191 @@
 
 <div class="wrap">
 
-  <section class="card">
+<section class="card">
 
-    <h1>♟ Chess AI Trainer</h1>
+<h1>♟ Chess AI Trainer</h1>
 
-    <div class="sub">
-      Play against a local browser AI. This is for practice and post-game analysis.
-    </div>
+<div class="sub">
+Practice against a browser AI.
+</div>
 
-    <div id="board"></div>
+<div id="board"></div>
 
-  </section>
+</section>
 
 
-  <aside class="card">
+<aside class="card">
 
-    <div id="status" class="status">
-      Loading…
-    </div>
+<div id="status" class="status">
+Loading…
+</div>
 
 
-    <div class="grid2">
+<div class="grid2">
 
-      <div class="field">
+<div class="field">
 
-        <label for="side">
-          Your side
-        </label>
+<label>Your side</label>
 
-        <select id="side">
+<select id="side">
+<option value="w">White</option>
+<option value="b">Black</option>
+</select>
 
-          <option value="w">
-            White
-          </option>
+</div>
 
-          <option value="b">
-            Black
-          </option>
 
-        </select>
+<div class="field">
 
-      </div>
+<label>AI level</label>
 
+<select id="level">
+<option value="easy">Easy</option>
+<option value="medium" selected>Medium</option>
+<option value="hard">Hard</option>
+</select>
 
-      <div class="field">
+</div>
 
-        <label for="level">
-          AI level
-        </label>
+</div>
 
-        <select id="level">
 
-          <option value="easy">
-            Easy
-          </option>
+<div class="row">
 
-          <option value="medium" selected>
-            Medium
-          </option>
+<button id="newBtn">
+New Game
+</button>
 
-          <option value="hard">
-            Hard
-          </option>
+<button id="undoBtn">
+Undo
+</button>
 
-        </select>
+<button id="hintBtn">
+Hint
+</button>
 
-      </div>
+<button id="flipBtn">
+Flip Board
+</button>
 
-    </div>
+</div>
 
 
-    <div class="row">
+<div class="field">
 
-      <button id="newBtn" class="primary">
-        New Game
-      </button>
+<label>
+Material Won
+</label>
 
-      <button id="undoBtn">
-        Undo
-      </button>
+<div style="
+background:#101010;
+border:1px solid #333;
+border-radius:10px;
+padding:10px;
+line-height:1.6;
+">
 
-      <button id="hintBtn">
-        Hint
-      </button>
+<div>
+<strong>You:</strong>
+<span id="yourMaterial">0</span>
+points
+</div>
 
-      <button id="flipBtn">
-        Flip Board
-      </button>
+<div>
+<strong>AI:</strong>
+<span id="aiMaterial">0</span>
+points
+</div>
 
-    </div>
+<div id="materialLead" class="tiny">
+Material is equal.
+</div>
 
+</div>
 
-    <div class="field">
+</div>
 
-      <label>
-        Material Won
-      </label>
 
-      <div
-        id="materialBox"
-        style="
-          background:#101010;
-          border:1px solid #333;
-          border-radius:10px;
-          padding:10px;
-          line-height:1.6;
-        "
-      >
+<div class="field">
 
-        <div>
+<label>
+Evaluation
+</label>
 
-          <strong>
-            You:
-          </strong>
+<div class="eval">
 
-          <span id="yourMaterial">
-            0
-          </span>
+<div id="evalWhite"></div>
 
-          points
+<div id="evalBlack"></div>
 
-        </div>
+</div>
 
+<div id="evalText" class="tiny">
+0.00
+</div>
 
-        <div>
+</div>
 
-          <strong>
-            AI:
-          </strong>
 
-          <span id="aiMaterial">
-            0
-          </span>
+<div class="field">
 
-          points
+<label>
+Moves
+</label>
 
-        </div>
+<div id="moves" class="moves">
+No moves yet.
+</div>
 
+</div>
 
-        <div id="materialLead" class="tiny">
-          Material is equal.
-        </div>
 
-      </div>
+<div class="field">
 
-    </div>
+<label>
+FEN
+</label>
 
+<input id="fen" style="width:100%" />
 
-    <div class="field">
+<div class="row">
 
-      <label>
-        Evaluation
-      </label>
+<button id="loadFenBtn">
+Load FEN
+</button>
 
-      <div class="eval">
+<button id="copyFenBtn">
+Copy FEN
+</button>
 
-        <div id="evalWhite"></div>
+</div>
 
-        <div id="evalBlack"></div>
+</div>
 
-      </div>
 
-      <div id="evalText" class="tiny">
-        0.00
-      </div>
+<div class="field">
 
-    </div>
+<label>
+PGN
+</label>
 
+<textarea id="pgn"></textarea>
 
-    <div class="field">
+<div class="row">
 
-      <label>
-        Moves
-      </label>
+<button id="loadPgnBtn">
+Load PGN
+</button>
 
-      <div id="moves" class="moves">
-        No moves yet.
-      </div>
+<button id="copyPgnBtn">
+Copy PGN
+</button>
 
-    </div>
+</div>
 
+</div>
 
-    <div class="field">
-
-      <label for="fen">
-        FEN
-      </label>
-
-      <input
-        id="fen"
-        style="width:100%"
-      />
-
-      <div class="row">
-
-        <button id="loadFenBtn">
-          Load FEN
-        </button>
-
-        <button id="copyFenBtn">
-          Copy FEN
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="field">
-
-      <label for="pgn">
-        PGN
-      </label>
-
-      <textarea
-        id="pgn"
-        placeholder="Paste PGN here for review, or copy the current game."
-      ></textarea>
-
-      <div class="row">
-
-        <button id="loadPgnBtn">
-          Load PGN
-        </button>
-
-        <button id="copyPgnBtn">
-          Copy PGN
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="safe">
-      Do not use this trainer to obtain moves during a live competitive game.
-    </div>
-
-  </aside>
+</aside>
 
 </div>
 
@@ -522,2208 +444,1160 @@
 import { Chess }
 from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm";
 
-
-const game =
-new Chess();
-
+const game = new Chess();
 
 const boardEl =
 document.getElementById("board");
 
-
 const statusEl =
 document.getElementById("status");
-
 
 const movesEl =
 document.getElementById("moves");
 
-
 const fenEl =
 document.getElementById("fen");
-
 
 const pgnEl =
 document.getElementById("pgn");
 
-
 const sideEl =
 document.getElementById("side");
-
 
 const levelEl =
 document.getElementById("level");
 
-
 const evalWhite =
 document.getElementById("evalWhite");
-
 
 const evalText =
 document.getElementById("evalText");
 
 
-let selected =
-null;
+let selected = null;
 
+let legalTargets = [];
 
-let legalTargets =
-[];
+let orientation = "w";
 
-
-let orientation =
-"w";
-
-
-let aiThinking =
-false;
+let aiThinking = false;
 
 
 const unicode = {
 
-  wk:"♔",
-  wq:"♕",
-  wr:"♖",
-  wb:"♗",
-  wn:"♘",
-  wp:"♙",
+wk:"♔",
+wq:"♕",
+wr:"♖",
+wb:"♗",
+wn:"♘",
+wp:"♙",
 
-  bk:"♚",
-  bq:"♛",
-  br:"♜",
-  bb:"♝",
-  bn:"♞",
-  bp:"♟"
+bk:"♚",
+bq:"♛",
+br:"♜",
+bb:"♝",
+bn:"♞",
+bp:"♟"
 
 };
 
 
 const values = {
 
-  p:100,
-  n:320,
-  b:330,
-  r:500,
-  q:900,
-  k:20000
+p:100,
+n:320,
+b:330,
+r:500,
+q:900,
+k:20000
 
 };
 
 
-function squareName(
-  file,
-  rank
-){
+function squareName(file,rank){
 
-  return String.fromCharCode(
-      97 + file
-    )
-    +
-    (8 - rank);
+return String.fromCharCode(97+file)
++
+(8-rank);
 
 }
 
 
 function renderBoard(){
 
-  boardEl.innerHTML =
-  "";
+boardEl.innerHTML="";
 
+const matrix=game.board();
 
-  const matrix =
-  game.board();
+const ranks=
+orientation==="w"
+?
+[0,1,2,3,4,5,6,7]
+:
+[7,6,5,4,3,2,1,0];
 
+const files=
+orientation==="w"
+?
+[0,1,2,3,4,5,6,7]
+:
+[7,6,5,4,3,2,1,0];
 
-  const ranks =
-    orientation === "w"
-      ?
-      [
-        0,1,2,3,4,5,6,7
-      ]
-      :
-      [
-        7,6,5,4,3,2,1,0
-      ];
 
+for(const r of ranks){
 
-  const files =
-    orientation === "w"
-      ?
-      [
-        0,1,2,3,4,5,6,7
-      ]
-      :
-      [
-        7,6,5,4,3,2,1,0
-      ];
+for(const f of files){
 
+const sqName=
+squareName(f,r);
 
-  for(
-    const r
-    of ranks
-  ){
+const sq=
+document.createElement("div");
 
-    for(
-      const f
-      of files
-    ){
+sq.className=
+"sq "
++
+(((r+f)%2===0)
+?
+"light"
+:
+"dark");
 
-      const sqName =
-      squareName(
-        f,
-        r
-      );
 
+sq.dataset.square=
+sqName;
 
-      const sq =
-      document.createElement(
-        "div"
-      );
 
+if(selected===sqName){
 
-      sq.className =
-        "sq "
-        +
-        (
-          ((r + f) % 2 === 0)
-            ?
-            "light"
-            :
-            "dark"
-        );
-
-
-      sq.dataset.square =
-      sqName;
-
-
-      if(
-        selected === sqName
-      ){
-
-        sq.classList.add(
-          "selected"
-        );
-
-      }
-
-
-      const target =
-      legalTargets.find(
-        m =>
-        m.to === sqName
-      );
-
-
-      if(target){
-
-        sq.classList.add(
-
-          target.captured
-            ?
-            "capture"
-            :
-            "legal"
-
-        );
-
-      }
-
-
-      const piece =
-      matrix[r][f];
-
-
-      if(piece){
-
-        const span =
-        document.createElement(
-          "span"
-        );
-
-
-        span.className =
-          "piece "
-          +
-          (
-            piece.color === "w"
-              ?
-              "white"
-              :
-              "black"
-          );
-
-
-        span.textContent =
-        unicode[
-          piece.color
-          +
-          piece.type
-        ];
-
-
-        sq.appendChild(
-          span
-        );
-
-      }
-
-
-      if(
-        (
-          orientation === "w"
-          &&
-          r === 7
-        )
-        ||
-        (
-          orientation === "b"
-          &&
-          r === 0
-        )
-      ){
-
-        const c =
-        document.createElement(
-          "span"
-        );
-
-
-        c.className =
-        "coord file";
-
-
-        c.textContent =
-        sqName[0];
-
-
-        sq.appendChild(
-          c
-        );
-
-      }
-
-
-      if(
-        (
-          orientation === "w"
-          &&
-          f === 0
-        )
-        ||
-        (
-          orientation === "b"
-          &&
-          f === 7
-        )
-      ){
-
-        const c =
-        document.createElement(
-          "span"
-        );
-
-
-        c.className =
-        "coord rank";
-
-
-        c.textContent =
-        sqName[1];
-
-
-        sq.appendChild(
-          c
-        );
-
-      }
-
-
-      sq.addEventListener(
-
-        "click",
-
-        () =>
-        onSquareClick(
-          sqName
-        )
-
-      );
-
-
-      boardEl.appendChild(
-        sq
-      );
-
-    }
-
-  }
-
-
-  updatePanel();
+sq.classList.add(
+"selected"
+);
 
 }
 
 
-function onSquareClick(
-  square
+const target=
+legalTargets.find(
+m=>m.to===sqName
+);
+
+
+if(target){
+
+sq.classList.add(
+target.captured
+?
+"capture"
+:
+"legal"
+);
+
+}
+
+
+const piece=
+matrix[r][f];
+
+
+if(piece){
+
+const span=
+document.createElement("span");
+
+span.className=
+"piece "
++
+(piece.color==="w"
+?
+"white"
+:
+"black");
+
+span.textContent=
+unicode[
+piece.color
++
+piece.type
+];
+
+sq.appendChild(span);
+
+}
+
+
+sq.addEventListener(
+"click",
+()=>onSquareClick(sqName)
+);
+
+
+boardEl.appendChild(sq);
+
+}
+
+}
+
+
+updatePanel();
+
+}
+
+
+function onSquareClick(square){
+
+if(aiThinking) return;
+
+if(game.isGameOver()) return;
+
+
+const human=
+sideEl.value;
+
+
+if(game.turn()!==human)
+return;
+
+
+if(selected){
+
+const match=
+legalTargets.find(
+m=>m.to===square
+);
+
+
+if(match){
+
+try{
+
+game.move({
+
+from:selected,
+to:square,
+promotion:"q"
+
+});
+
+
+selected=null;
+
+legalTargets=[];
+
+renderBoard();
+
+setTimeout(
+aiMove,
+150
+);
+
+return;
+
+}
+catch(e){}
+
+}
+
+}
+
+
+const piece=
+game.get(square);
+
+
+if(
+piece
+&&
+piece.color===human
 ){
 
-  if(aiThinking)
-    return;
+selected=
+square;
+
+legalTargets=
+game.moves({
+
+square,
+verbose:true
+
+});
+
+}
+else{
+
+selected=null;
+
+legalTargets=[];
+
+}
 
 
-  if(
-    game.isGameOver()
-  )
-    return;
-
-
-  const human =
-  sideEl.value;
-
-
-  if(
-    game.turn()
-    !==
-    human
-  )
-    return;
-
-
-  if(selected){
-
-    const match =
-    legalTargets.find(
-      m =>
-      m.to === square
-    );
-
-
-    if(match){
-
-      try{
-
-        game.move({
-
-          from:
-          selected,
-
-          to:
-          square,
-
-          promotion:
-          "q"
-
-        });
-
-
-        selected =
-        null;
-
-
-        legalTargets =
-        [];
-
-
-        renderBoard();
-
-
-        setTimeout(
-          aiMove,
-          180
-        );
-
-
-        return;
-
-      }
-      catch(e){}
-
-    }
-
-  }
-
-
-  const piece =
-  game.get(
-    square
-  );
-
-
-  if(
-    piece
-    &&
-    piece.color === human
-  ){
-
-    selected =
-    square;
-
-
-    legalTargets =
-    game.moves({
-
-      square,
-      verbose:true
-
-    });
-
-  }
-
-  else{
-
-    selected =
-    null;
-
-
-    legalTargets =
-    [];
-
-  }
-
-
-  renderBoard();
+renderBoard();
 
 }
 
 
 function capturedMaterialTotals(){
 
-  const points = {
+const points={
 
-    p:1,
-    n:3,
-    b:3,
-    r:5,
-    q:9,
-    k:0
+p:1,
+n:3,
+b:3,
+r:5,
+q:9,
+k:0
 
-  };
-
-
-  let whiteWon =
-  0;
+};
 
 
-  let blackWon =
-  0;
+let whiteWon=0;
+
+let blackWon=0;
 
 
-  for(
-    const move
-    of game.history({
-      verbose:true
-    })
-  ){
+for(
+const move
+of game.history({verbose:true})
+){
 
-    if(
-      !move.captured
-    )
-      continue;
+if(!move.captured)
+continue;
 
 
-    const value =
-      points[
-        move.captured
-      ]
-      ||
-      0;
+const value=
+points[move.captured]||0;
 
 
-    if(
-      move.color === "w"
-    ){
+if(move.color==="w")
+whiteWon+=value;
 
-      whiteWon +=
-      value;
+else
+blackWon+=value;
 
-    }
-
-    else{
-
-      blackWon +=
-      value;
-
-    }
-
-  }
+}
 
 
-  return {
-
-    whiteWon,
-    blackWon
-
-  };
+return{
+whiteWon,
+blackWon
+};
 
 }
 
 
 function updateMaterial(){
 
-  const totals =
-  capturedMaterialTotals();
+const totals=
+capturedMaterialTotals();
 
 
-  const human =
-  sideEl.value;
+const human=
+sideEl.value;
 
 
-  const yours =
-    human === "w"
-      ?
-      totals.whiteWon
-      :
-      totals.blackWon;
+const yours=
+human==="w"
+?
+totals.whiteWon
+:
+totals.blackWon;
 
 
-  const ai =
-    human === "w"
-      ?
-      totals.blackWon
-      :
-      totals.whiteWon;
+const ai=
+human==="w"
+?
+totals.blackWon
+:
+totals.whiteWon;
 
 
-  const diff =
-  yours - ai;
+const diff=
+yours-ai;
 
 
-  document.getElementById(
-    "yourMaterial"
-  ).textContent =
-  yours;
+document.getElementById(
+"yourMaterial"
+).textContent=
+yours;
 
 
-  document.getElementById(
-    "aiMaterial"
-  ).textContent =
-  ai;
+document.getElementById(
+"aiMaterial"
+).textContent=
+ai;
 
 
-  const lead =
-  document.getElementById(
-    "materialLead"
-  );
+const lead=
+document.getElementById(
+"materialLead"
+);
 
 
-  if(
-    diff > 0
-  ){
+if(diff>0){
 
-    lead.textContent =
-      `You have won ${diff} more material point${diff===1 ? "" : "s"}.`;
+lead.textContent=
+`You have won ${diff} more material points.`;
 
-  }
+}
+else if(diff<0){
 
-  else if(
-    diff < 0
-  ){
+lead.textContent=
+`AI has won ${Math.abs(diff)} more material points.`;
 
-    const d =
-    Math.abs(
-      diff
-    );
+}
+else{
 
+lead.textContent=
+"Material is equal.";
 
-    lead.textContent =
-      `AI has won ${d} more material point${d===1 ? "" : "s"}.`;
-
-  }
-
-  else{
-
-    lead.textContent =
-    "Material is equal.";
-
-  }
+}
 
 }
 
 
 function evaluate(){
 
-  if(
-    game.isCheckmate()
-  ){
+if(game.isCheckmate()){
 
-    return game.turn() === "w"
-        ?
-        -999999
-        :
-        999999;
-
-  }
-
-
-  const pst = {
-
-    p:[
-      [0,0,0,0,0,0,0,0],
-      [50,50,50,50,50,50,50,50],
-      [10,10,20,30,30,20,10,10],
-      [5,5,10,25,25,10,5,5],
-      [0,0,0,20,20,0,0,0],
-      [5,-5,-10,0,0,-10,-5,5],
-      [5,10,10,-20,-20,10,10,5],
-      [0,0,0,0,0,0,0,0]
-    ],
-
-    n:[
-      [-50,-40,-30,-30,-30,-30,-40,-50],
-      [-40,-20,0,5,5,0,-20,-40],
-      [-30,5,10,15,15,10,5,-30],
-      [-30,0,15,20,20,15,0,-30],
-      [-30,5,15,20,20,15,5,-30],
-      [-30,0,10,15,15,10,0,-30],
-      [-40,-20,0,0,0,0,-20,-40],
-      [-50,-40,-30,-30,-30,-30,-40,-50]
-    ],
-
-    b:[
-      [-20,-10,-10,-10,-10,-10,-10,-20],
-      [-10,5,0,0,0,0,5,-10],
-      [-10,10,10,10,10,10,10,-10],
-      [-10,0,10,10,10,10,0,-10],
-      [-10,5,5,10,10,5,5,-10],
-      [-10,0,5,10,10,5,0,-10],
-      [-10,0,0,0,0,0,0,-10],
-      [-20,-10,-10,-10,-10,-10,-10,-20]
-    ],
-
-    r:[
-      [0,0,0,5,5,0,0,0],
-      [-5,0,0,0,0,0,0,-5],
-      [-5,0,0,0,0,0,0,-5],
-      [-5,0,0,0,0,0,0,-5],
-      [-5,0,0,0,0,0,0,-5],
-      [-5,0,0,0,0,0,0,-5],
-      [5,10,10,10,10,10,10,5],
-      [0,0,0,0,0,0,0,0]
-    ],
-
-    q:[
-      [-20,-10,-10,-5,-5,-10,-10,-20],
-      [-10,0,5,0,0,0,0,-10],
-      [-10,5,5,5,5,5,0,-10],
-      [0,0,5,5,5,5,0,-5],
-      [-5,0,5,5,5,5,0,-5],
-      [-10,0,5,5,5,5,0,-10],
-      [-10,0,0,0,0,0,0,-10],
-      [-20,-10,-10,-5,-5,-10,-10,-20]
-    ],
-
-    k:[
-      [20,30,10,0,0,10,30,20],
-      [20,20,0,0,0,0,20,20],
-      [-10,-20,-20,-20,-20,-20,-20,-10],
-      [-20,-30,-30,-40,-40,-30,-30,-20],
-      [-30,-40,-40,-50,-50,-40,-40,-30],
-      [-30,-40,-40,-50,-50,-40,-40,-30],
-      [-30,-40,-40,-50,-50,-40,-40,-30],
-      [-30,-40,-40,-50,-50,-40,-40,-30]
-    ]
-
-  };
-
-
-  let score =
-  0;
-
-
-  const b =
-  game.board();
-
-
-  for(
-    let r = 0;
-    r < 8;
-    r++
-  ){
-
-    for(
-      let f = 0;
-      f < 8;
-      f++
-    ){
-
-      const p =
-      b[r][f];
-
-
-      if(!p)
-        continue;
-
-
-      const sign =
-        p.color === "w"
-          ?
-          1
-          :
-          -1;
-
-
-      score +=
-        sign
-        *
-        values[p.type];
-
-
-      const table =
-      pst[p.type];
-
-
-      if(table){
-
-        const rr =
-          p.color === "w"
-            ?
-            r
-            :
-            7-r;
-
-
-        score +=
-          sign
-          *
-          table[rr][f];
-
-      }
-
-    }
-
-  }
-
-
-  const side =
-  game.turn();
-
-
-  const mobility =
-  game.moves().length;
-
-
-  score +=
-    (
-      side === "w"
-        ?
-        1
-        :
-        -1
-    )
-    *
-    mobility
-    *
-    2;
-
-
-  if(
-    game.inCheck()
-  ){
-
-    score +=
-      game.turn() === "w"
-        ?
-        -25
-        :
-        25;
-
-  }
-
-
-  return score;
+return game.turn()==="w"
+?
+-999999
+:
+999999;
 
 }
 
 
-function moveOrdering(
-  moves
+let score=0;
+
+
+for(
+const row
+of game.board()
 ){
 
-  return moves.sort(
+for(
+const p
+of row
+){
 
-    (a,b) => {
-
-      const scoreMove =
-      (m) => {
-
-        let s =
-        0;
+if(!p)
+continue;
 
 
-        if(
-          m.captured
-        ){
-
-          s +=
-            10
-            *
-            values[
-              m.captured
-            ]
-            -
-            values[
-              m.piece
-            ];
-
-        }
+const sign=
+p.color==="w"
+?
+1
+:
+-1;
 
 
-        if(
-          m.promotion
-        ){
+score+=
+sign
+*
+values[p.type];
 
-          s +=
-          values[
-            m.promotion
-          ];
+}
 
-        }
+}
 
 
-        if(
-          m.san
-          &&
-          m.san.includes("#")
-        ){
+return score;
 
-          s +=
-          100000;
-
-        }
-
-        else if(
-          m.san
-          &&
-          m.san.includes("+")
-        ){
-
-          s +=
-          500;
-
-        }
+}
 
 
-        if(
-          m.flags
-          &&
-          m.flags.includes("k")
-        ){
+function moveOrdering(moves){
 
-          s +=
-          80;
+return moves.sort(
 
-        }
+(a,b)=>{
 
-
-        if(
-          m.flags
-          &&
-          m.flags.includes("q")
-        ){
-
-          s +=
-          70;
-
-        }
+const av=
+a.captured
+?
+values[a.captured]
+:
+0;
 
 
-        return s;
+const bv=
+b.captured
+?
+values[b.captured]
+:
+0;
 
-      };
 
+return bv-av;
 
-      return scoreMove(b)
-        -
-        scoreMove(a);
+}
 
-    }
-
-  );
+);
 
 }
 
 
 function minimax(
-  depth,
-  alpha,
-  beta,
-  maximizingWhite
+depth,
+alpha,
+beta,
+maximizingWhite
 ){
 
-  if(
-    depth === 0
-    ||
-    game.isGameOver()
-  ){
-
-    return evaluate();
-
-  }
-
-
-  const moves =
-  moveOrdering(
-    game.moves({
-      verbose:true
-    })
-  );
-
-
-  if(
-    maximizingWhite
-  ){
-
-    let best =
-    -Infinity;
-
-
-    for(
-      const m
-      of moves
-    ){
-
-      game.move(m);
-
-
-      best =
-      Math.max(
-
-        best,
-
-        minimax(
-
-          depth-1,
-          alpha,
-          beta,
-          false
-
-        )
-
-      );
-
-
-      game.undo();
-
-
-      alpha =
-      Math.max(
-        alpha,
-        best
-      );
-
-
-      if(
-        beta <= alpha
-      )
-        break;
-
-    }
-
-
-    return best;
-
-  }
-
-  else{
-
-    let best =
-    Infinity;
-
-
-    for(
-      const m
-      of moves
-    ){
-
-      game.move(m);
-
-
-      best =
-      Math.min(
-
-        best,
-
-        minimax(
-
-          depth-1,
-          alpha,
-          beta,
-          true
-
-        )
-
-      );
-
-
-      game.undo();
-
-
-      beta =
-      Math.min(
-        beta,
-        best
-      );
-
-
-      if(
-        beta <= alpha
-      )
-        break;
-
-    }
-
-
-    return best;
-
-  }
-
-}
-
-
-function searchBestMove(
-  depth
+if(
+depth===0
+||
+game.isGameOver()
 ){
 
-  let moves =
-  moveOrdering(
-    game.moves({
-      verbose:true
-    })
-  );
-
-
-  if(
-    !moves.length
-  )
-    return null;
-
-
-  const sideIsWhite =
-  game.turn() === "w";
-
-
-  let bestScore =
-    sideIsWhite
-      ?
-      -Infinity
-      :
-      Infinity;
-
-
-  let bestMove =
-  moves[0];
-
-
-  for(
-    const m
-    of moves
-  ){
-
-    game.move(m);
-
-
-    const score =
-    minimax(
-
-      depth-1,
-      -Infinity,
-      Infinity,
-      game.turn() === "w"
-
-    );
-
-
-    game.undo();
-
-
-    if(
-
-      (
-        sideIsWhite
-        &&
-        score > bestScore
-      )
-
-      ||
-
-      (
-        !sideIsWhite
-        &&
-        score < bestScore
-      )
-
-    ){
-
-      bestScore =
-      score;
-
-
-      bestMove =
-      m;
-
-    }
-
-  }
-
-
-  return {
-
-    move:
-    bestMove,
-
-    score:
-    bestScore
-
-  };
+return evaluate();
 
 }
 
 
-function searchFastHint(){
-
-  let moves =
-  moveOrdering(
-    game.moves({
-      verbose:true
-    })
-  );
+const moves=
+moveOrdering(
+game.moves({verbose:true})
+);
 
 
-  if(
-    !moves.length
-  )
-    return null;
+if(maximizingWhite){
+
+let best=
+-Infinity;
 
 
-  const candidateLimit =
-  10;
+for(const m of moves){
+
+game.move(m);
 
 
-  moves =
-  moves.slice(
+best=
+Math.max(
 
-    0,
+best,
 
-    Math.min(
-      candidateLimit,
-      moves.length
-    )
+minimax(
+depth-1,
+alpha,
+beta,
+false
+)
 
-  );
-
-
-  const sideIsWhite =
-  game.turn() === "w";
+);
 
 
-  let bestScore =
-    sideIsWhite
-      ?
-      -Infinity
-      :
-      Infinity;
+game.undo();
 
 
-  let bestMove =
-  moves[0];
+alpha=
+Math.max(
+alpha,
+best
+);
 
 
-  for(
-    const m
-    of moves
-  ){
-
-    game.move(m);
-
-
-    const score =
-    minimax(
-
-      2,
-      -Infinity,
-      Infinity,
-      game.turn() === "w"
-
-    );
-
-
-    game.undo();
-
-
-    if(
-
-      (
-        sideIsWhite
-        &&
-        score > bestScore
-      )
-
-      ||
-
-      (
-        !sideIsWhite
-        &&
-        score < bestScore
-      )
-
-    ){
-
-      bestScore =
-      score;
-
-
-      bestMove =
-      m;
-
-    }
-
-  }
-
-
-  return {
-
-    move:
-    bestMove,
-
-    score:
-    bestScore
-
-  };
+if(beta<=alpha)
+break;
 
 }
 
 
-function hintExplanation(
-  move
+return best;
+
+}
+
+
+else{
+
+let best=
+Infinity;
+
+
+for(const m of moves){
+
+game.move(m);
+
+
+best=
+Math.min(
+
+best,
+
+minimax(
+depth-1,
+alpha,
+beta,
+true
+)
+
+);
+
+
+game.undo();
+
+
+beta=
+Math.min(
+beta,
+best
+);
+
+
+if(beta<=alpha)
+break;
+
+}
+
+
+return best;
+
+}
+
+}
+
+
+function searchBestMove(depth){
+
+let moves=
+moveOrdering(
+game.moves({verbose:true})
+);
+
+
+if(!moves.length)
+return null;
+
+
+const white=
+game.turn()==="w";
+
+
+let bestScore=
+white
+?
+-Infinity
+:
+Infinity;
+
+
+let bestMove=
+moves[0];
+
+
+for(const m of moves){
+
+game.move(m);
+
+
+const score=
+minimax(
+
+depth-1,
+-Infinity,
+Infinity,
+game.turn()==="w"
+
+);
+
+
+game.undo();
+
+
+if(
+(white&&score>bestScore)
+||
+(!white&&score<bestScore)
 ){
 
-  if(!move)
-    return "";
+bestScore=
+score;
 
+bestMove=
+m;
 
-  if(
-    move.san
-    &&
-    move.san.includes("#")
-  ){
-
-    return "Checkmate.";
-
-  }
-
-
-  if(
-    move.san
-    &&
-    move.san.includes("+")
-  ){
-
-    return "Gives check and keeps the initiative.";
-
-  }
-
-
-  if(
-    move.captured
-  ){
-
-    return `Wins or exchanges material by capturing a ${move.captured.toUpperCase()}.`;
-
-  }
-
-
-  if(
-    move.promotion
-  ){
-
-    return `Promotes the pawn to a ${move.promotion.toUpperCase()}.`;
-
-  }
-
-
-  if(
-    move.flags
-    &&
-    (
-      move.flags.includes("k")
-      ||
-      move.flags.includes("q")
-    )
-  ){
-
-    return "Castles to improve king safety and connect the rooks.";
-
-  }
-
-
-  const center = [
-    "d4",
-    "d5",
-    "e4",
-    "e5"
-  ];
-
-
-  if(
-    center.includes(
-      move.to
-    )
-  ){
-
-    return "Improves central control.";
-
-  }
-
-
-  if(
-    move.piece === "n"
-    ||
-    move.piece === "b"
-  ){
-
-    return "Develops a minor piece to a more active square.";
-
-  }
-
-
-  if(
-    move.piece === "r"
-  ){
-
-    return "Activates a rook.";
-
-  }
-
-
-  if(
-    move.piece === "q"
-  ){
-
-    return "Improves queen activity while keeping the position balanced.";
-
-  }
-
-
-  return "Improves the position according to the trainer's search.";
+}
 
 }
 
 
-/* =================================================
-   FAST + VARIED AI OPENINGS
-   ================================================= */
+return{
+
+move:bestMove,
+score:bestScore
+
+};
+
+}
+
 
 function chooseAiMove(){
 
-  const level =
-  levelEl.value;
+const level=
+levelEl.value;
 
 
-  let moves =
-  moveOrdering(
-    game.moves({
-      verbose:true
-    })
-  );
+let moves=
+moveOrdering(
+game.moves({verbose:true})
+);
 
 
-  if(
-    !moves.length
-  )
-    return null;
+if(!moves.length)
+return null;
 
 
-  const ply =
-  game.history().length;
+if(level==="easy"){
 
+return moves[
+Math.floor(
+Math.random()
+*
+moves.length
+)
+];
 
-  /* EASY:
-     fast + varied
-  */
+}
 
-  if(
-    level === "easy"
-  ){
 
-    const pool =
-    moves.slice(
+const depth=
+level==="medium"
+?
+3
+:
+4;
 
-      0,
 
-      Math.min(
-        10,
-        moves.length
-      )
+const result=
+searchBestMove(depth);
 
-    );
 
-
-    return pool[
-      Math.floor(
-        Math.random()
-        *
-        pool.length
-      )
-    ];
-
-  }
-
-
-  /* OPENING MODE:
-     fast calculation
-     different good responses
-  */
-
-  if(
-    ply < 10
-  ){
-
-    const sideIsWhite =
-    game.turn() === "w";
-
-
-    const scored =
-    [];
-
-
-    for(
-      const m
-      of moves
-    ){
-
-      game.move(m);
-
-
-      let score =
-      evaluate();
-
-
-      if(
-        m.san
-        &&
-        m.san.includes("+")
-      ){
-
-        score +=
-          sideIsWhite
-            ?
-            18
-            :
-            -18;
-
-      }
-
-
-      if(
-        m.flags
-        &&
-        (
-          m.flags.includes("k")
-          ||
-          m.flags.includes("q")
-        )
-      ){
-
-        score +=
-          sideIsWhite
-            ?
-            35
-            :
-            -35;
-
-      }
-
-
-      if(
-        [
-          "d4",
-          "d5",
-          "e4",
-          "e5"
-        ].includes(
-          m.to
-        )
-      ){
-
-        score +=
-          sideIsWhite
-            ?
-            20
-            :
-            -20;
-
-      }
-
-
-      if(
-        m.piece === "n"
-        ||
-        m.piece === "b"
-      ){
-
-        score +=
-          sideIsWhite
-            ?
-            15
-            :
-            -15;
-
-      }
-
-
-      game.undo();
-
-
-      scored.push({
-
-        move:
-        m,
-
-        score:
-        score
-
-      });
-
-    }
-
-
-    scored.sort(
-
-      (a,b) =>
-
-        sideIsWhite
-          ?
-          b.score - a.score
-          :
-          a.score - b.score
-
-    );
-
-
-    const choiceCount =
-      level === "medium"
-        ?
-        5
-        :
-        3;
-
-
-    const pool =
-    scored.slice(
-
-      0,
-
-      Math.min(
-        choiceCount,
-        scored.length
-      )
-
-    );
-
-
-    const weights =
-    pool.map(
-
-      (_,i) =>
-      pool.length - i
-
-    );
-
-
-    const total =
-    weights.reduce(
-
-      (a,b) =>
-      a+b,
-
-      0
-
-    );
-
-
-    let roll =
-    Math.random()
-    *
-    total;
-
-
-    for(
-      let i = 0;
-      i < pool.length;
-      i++
-    ){
-
-      roll -=
-      weights[i];
-
-
-      if(
-        roll <= 0
-      ){
-
-        return pool[i].move;
-
-      }
-
-    }
-
-
-    return pool[0].move;
-
-  }
-
-
-  const depth =
-    level === "medium"
-      ?
-      3
-      :
-      4;
-
-
-  const result =
-  searchBestMove(
-    depth
-  );
-
-
-  return result
-      ?
-      result.move
-      :
-      moves[0];
+return result
+?
+result.move
+:
+null;
 
 }
 
 
 function aiMove(){
 
-  if(
-    game.isGameOver()
-  )
-    return;
+if(game.isGameOver())
+return;
 
 
-  const human =
-  sideEl.value;
+if(
+game.turn()
+===
+sideEl.value
+)
+return;
 
 
-  if(
-    game.turn()
-    ===
-    human
-  )
-    return;
+aiThinking=true;
+
+updatePanel();
 
 
-  aiThinking =
-  true;
+setTimeout(()=>{
+
+const move=
+chooseAiMove();
 
 
-  updatePanel();
+if(move)
+game.move(move);
 
 
-  setTimeout(
+aiThinking=false;
 
-    () => {
+selected=null;
 
-      const move =
-      chooseAiMove();
+legalTargets=[];
 
+renderBoard();
 
-      if(move){
-
-        game.move(
-          move
-        );
-
-      }
-
-
-      aiThinking =
-      false;
-
-
-      selected =
-      null;
-
-
-      legalTargets =
-      [];
-
-
-      renderBoard();
-
-    },
-
-    50
-
-  );
+},50);
 
 }
 
 
 function updatePanel(){
 
-  updateMaterial();
+updateMaterial();
 
 
-  fenEl.value =
-  game.fen();
+fenEl.value=
+game.fen();
 
 
-  pgnEl.value =
-  game.pgn();
+pgnEl.value=
+game.pgn();
 
 
-  const hist =
-  game.history();
+const hist=
+game.history();
 
 
-  if(
-    hist.length === 0
-  ){
+if(hist.length===0){
 
-    movesEl.textContent =
-    "No moves yet.";
+movesEl.textContent=
+"No moves yet.";
 
-  }
+}
 
-  else{
+else{
 
-    let out =
-    "";
+let out="";
 
 
-    for(
-      let i = 0;
-      i < hist.length;
-      i += 2
-    ){
+for(
+let i=0;
+i<hist.length;
+i+=2
+){
 
-      out +=
-        `${Math.floor(i/2)+1}. ${hist[i] || ""} ${hist[i+1] || ""}\n`;
+out+=
+`${Math.floor(i/2)+1}. ${hist[i]||""} ${hist[i+1]||""}\n`;
 
-    }
-
-
-    movesEl.textContent =
-    out.trim();
-
-  }
+}
 
 
-  let status =
-    game.turn() === "w"
-      ?
-      "White to move"
-      :
-      "Black to move";
+movesEl.textContent=
+out.trim();
+
+}
 
 
-  if(
-    game.isCheckmate()
-  ){
-
-    const loser =
-    game.turn();
-
-
-    const human =
-    sideEl.value;
+let status=
+game.turn()==="w"
+?
+"White to move"
+:
+"Black to move";
 
 
-    if(
-      loser !== human
-    ){
+if(game.isCheckmate()){
 
-      status =
-      "🏆 YOU BEAT THE AI! 🎉";
+const loser=
+game.turn();
 
-    }
-
-    else{
-
-      status =
-      "🤖 YOU LOST TO THE AI";
-
-    }
-
-  }
+const human=
+sideEl.value;
 
 
-  else if(
-    game.isDraw()
-  ){
+if(loser!==human){
 
-    status =
-    "🤝 DRAW — Good game!";
+status=
+"🏆 YOU BEAT THE AI! 🎉";
 
-  }
+}
 
+else{
 
-  else if(
-    game.inCheck()
-  ){
+status=
+"🤖 YOU LOST TO THE AI";
 
-    status +=
-    " — Check";
+}
 
-  }
+}
 
 
-  if(
-    aiThinking
-    &&
-    !game.isGameOver()
-  ){
+else if(game.isDraw()){
 
-    status +=
-    " — AI thinking…";
+status=
+"🤝 DRAW — Good game!";
 
-  }
+}
 
 
-  statusEl.textContent =
-  status;
+else if(game.inCheck()){
+
+status+=" — Check";
+
+}
 
 
-  const score =
-  evaluate();
+if(
+aiThinking
+&&
+!game.isGameOver()
+){
+
+status+=" — AI thinking…";
+
+}
 
 
-  const cp =
-  Math.max(
-
-    -1200,
-
-    Math.min(
-      1200,
-      score
-    )
-
-  );
+statusEl.textContent=
+status;
 
 
-  const whitePct =
-    50
-    +
-    (
-      cp
-      /
-      1200
-    )
-    *
-    45;
+const score=
+evaluate();
 
 
-  evalWhite.style.width =
-  whitePct
-  +
-  "%";
+const cp=
+Math.max(
+-1200,
+Math.min(
+1200,
+score
+)
+);
 
 
-  evalText.textContent =
-    (
-      score
-      /
-      100
-    ).toFixed(2)
-    +
-    " (positive = White)";
+const whitePct=
+50
++
+(cp/1200)
+*
+45;
+
+
+evalWhite.style.width=
+whitePct+"%";
+
+
+evalText.textContent=
+(score/100).toFixed(2);
 
 }
 
 
 function startNew(){
 
-  game.reset();
+game.reset();
+
+selected=null;
+
+legalTargets=[];
+
+orientation=
+sideEl.value;
+
+renderBoard();
 
 
-  selected =
-  null;
+if(
+sideEl.value==="b"
+){
 
+setTimeout(
+aiMove,
+200
+);
 
-  legalTargets =
-  [];
-
-
-  orientation =
-  sideEl.value;
-
-
-  renderBoard();
-
-
-  if(
-    sideEl.value === "b"
-  ){
-
-    setTimeout(
-      aiMove,
-      200
-    );
-
-  }
+}
 
 }
 
 
 document.getElementById(
-  "newBtn"
-).onclick =
+"newBtn"
+).onclick=
 startNew;
 
 
 document.getElementById(
-  "undoBtn"
-).onclick =
-() => {
+"undoBtn"
+).onclick=
+()=>{
 
-  if(aiThinking)
-    return;
-
-
-  game.undo();
+if(aiThinking)
+return;
 
 
-  if(
-    game.turn()
-    !==
-    sideEl.value
-    &&
-    game.history().length
-  ){
-
-    game.undo();
-
-  }
+game.undo();
 
 
-  selected =
-  null;
+if(
+game.turn()
+!==
+sideEl.value
+&&
+game.history().length
+){
+
+game.undo();
+
+}
 
 
-  legalTargets =
-  [];
+selected=null;
 
+legalTargets=[];
 
-  renderBoard();
+renderBoard();
 
 };
 
 
 document.getElementById(
-  "hintBtn"
-).onclick =
-() => {
+"hintBtn"
+).onclick=
+()=>{
 
-  if(aiThinking)
-    return;
+if(aiThinking)
+return;
 
+if(game.isGameOver())
+return;
 
-  if(
-    game.isGameOver()
-  )
-    return;
-
-
-  if(
-    game.turn()
-    !==
-    sideEl.value
-  )
-    return;
+if(
+game.turn()
+!==
+sideEl.value
+)
+return;
 
 
-  statusEl.textContent =
-  "Calculating hint…";
+statusEl.textContent=
+"Calculating hint…";
 
 
-  setTimeout(
+setTimeout(()=>{
 
-    () => {
-
-      const result =
-      searchFastHint();
+const result=
+searchBestMove(3);
 
 
-      if(!result)
-        return;
+if(!result)
+return;
 
 
-      const move =
-      result.move;
+const move=
+result.move;
 
 
-      selected =
-      move.from;
+selected=
+move.from;
 
 
-      legalTargets =
-      game.moves({
+legalTargets=
+game.moves({
 
-        square:
-        move.from,
+square:move.from,
+verbose:true
 
-        verbose:
-        true
-
-      });
+});
 
 
-      renderBoard();
+renderBoard();
 
 
-      const evalForMover =
-        game.turn() === "w"
-          ?
-          result.score
-          :
-          -result.score;
+statusEl.textContent=
+`Hint: ${move.from} → ${move.to}`;
 
-
-      statusEl.textContent =
-
-        `Hint: ${move.san} (${move.from} → ${move.to}) — ${hintExplanation(move)} Score: ${(evalForMover/100).toFixed(2)}`;
-
-    },
-
-    0
-
-  );
+},0);
 
 };
 
 
 document.getElementById(
-  "flipBtn"
-).onclick =
-() => {
+"flipBtn"
+).onclick=
+()=>{
 
-  orientation =
-    orientation === "w"
-      ?
-      "b"
-      :
-      "w";
+orientation=
+orientation==="w"
+?
+"b"
+:
+"w";
 
 
-  renderBoard();
+renderBoard();
 
 };
 
 
-sideEl.onchange =
+sideEl.onchange=
 startNew;
 
 
 document.getElementById(
-  "loadFenBtn"
-).onclick =
-() => {
+"loadFenBtn"
+).onclick=
+()=>{
 
-  try{
+try{
 
-    game.load(
-      fenEl.value.trim()
-    );
+game.load(
+fenEl.value.trim()
+);
 
+selected=null;
 
-    selected =
-    null;
+legalTargets=[];
 
+renderBoard();
 
-    legalTargets =
-    [];
+}
+catch(e){
 
+alert(
+"Invalid FEN."
+);
 
-    renderBoard();
-
-
-    if(
-      game.turn()
-      !==
-      sideEl.value
-    ){
-
-      setTimeout(
-        aiMove,
-        200
-      );
-
-    }
-
-  }
-
-  catch(e){
-
-    alert(
-      "Invalid FEN."
-    );
-
-  }
+}
 
 };
 
 
 document.getElementById(
-  "copyFenBtn"
-).onclick =
-async () => {
+"copyFenBtn"
+).onclick=
+async()=>{
 
-  await navigator.clipboard.writeText(
-    game.fen()
-  );
-
-};
-
-
-document.getElementById(
-  "loadPgnBtn"
-).onclick =
-() => {
-
-  try{
-
-    game.loadPgn(
-      pgnEl.value
-    );
-
-
-    selected =
-    null;
-
-
-    legalTargets =
-    [];
-
-
-    renderBoard();
-
-  }
-
-  catch(e){
-
-    alert(
-      "Invalid PGN."
-    );
-
-  }
+await navigator.clipboard.writeText(
+game.fen()
+);
 
 };
 
 
 document.getElementById(
-  "copyPgnBtn"
-).onclick =
-async () => {
+"loadPgnBtn"
+).onclick=
+()=>{
 
-  await navigator.clipboard.writeText(
-    game.pgn()
-  );
+try{
+
+game.loadPgn(
+pgnEl.value
+);
+
+selected=null;
+
+legalTargets=[];
+
+renderBoard();
+
+}
+catch(e){
+
+alert(
+"Invalid PGN."
+);
+
+}
+
+};
+
+
+document.getElementById(
+"copyPgnBtn"
+).onclick=
+async()=>{
+
+await navigator.clipboard.writeText(
+game.pgn()
+);
 
 };
 
